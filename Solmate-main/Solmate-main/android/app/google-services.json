@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "873046477471",
+    "project_id": "management-ec9de",
+    "storage_bucket": "management-ec9de.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873046477471:android:34b16cfd65b81fd61630aa",
+        "android_client_info": {
+          "package_name": "com.example.solmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1o573hyPjEztWBwUXr6SWt26xggLb0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
