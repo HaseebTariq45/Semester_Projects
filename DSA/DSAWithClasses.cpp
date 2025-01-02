@@ -57,12 +57,12 @@ public:
     string name;
     int age;
     string disease;
-    string phone;
+    int phone;
     string assignedDoctor;
     int bedNumber;
     Patient* next;
 
-    Patient(int id, string name, int age, string disease, string phone, string doctor, int bed) {
+    Patient(int id, string name, int age, string disease, int phone, string doctor, int bed) {
         this->id = id;
         this->name = name;
         this->age = age;
@@ -80,9 +80,9 @@ public:
     int id;
     string name;
     int age;
-    string phone;
+    int phone;
 
-    Doctor(int id = 0, string name = "", int age = 0, string phone = "") {
+    Doctor(int id = 0, string name = "", int age = 0, int phone = 0) {
         this->id = id;
         this->name = name;
         this->age = age;
@@ -230,7 +230,7 @@ public:
         totalBeds = 20;
         for (int i = 0; i < 20; i++) beds[i] = false;
         for (int i = 0; i < 5; i++) {
-            doctors[i] = Doctor(i + 1, "", 0, "");
+            doctors[i] = Doctor(i + 1, "", 0, 0);
         }
         loadData();
     }
@@ -275,8 +275,8 @@ public:
     void loadData() {
         ifstream patientFile("patients.txt");
         if (patientFile.is_open()) {
-            int id, age, bed;
-            string name, disease, phone, doctor;
+            int id, age, bed,phone;
+            string name, disease,doctor;
             while (patientFile >> id >> name >> age >> disease >> phone >> doctor >> bed) {
                 addPatient(id, name, age, disease, phone, doctor, bed);
             }
@@ -285,8 +285,8 @@ public:
 
         ifstream doctorFile("doctors.txt");
         if (doctorFile.is_open()) {
-            int id, age;
-            string name, phone;
+            int id, age,phone;
+            string name;
             while (doctorFile >> id >> name >> age >> phone) {
                 doctors[id - 1] = Doctor(id, name, age, phone);
             }
@@ -304,7 +304,7 @@ cout<<"\n     ''''''''''''''''''''''''''''''''''\n"<<"          Data Loaded Succ
     }
 
 
-    void addPatient(int id, string name, int age, string disease, string phone, string doctor, int bed) {
+    void addPatient(int id, string name, int age, string disease, int phone, string doctor, int bed) {
         Patient* newPatient = new Patient(id, name, age, disease, phone, doctor, bed);
         newPatient->next = head;
         head = newPatient;
@@ -352,7 +352,7 @@ cout<<"\n     ''''''''''''''''''''''''''''''''''\n"<<"          Data Loaded Succ
         }
     }
 
-    void addDoctor(int id, string name, int age, string phone) {
+    void addDoctor(int id, string name, int age, int phone) {
         if (id < 1 || id > 5) {
             cout << "Invalid Doctor ID." << endl;
             return;
@@ -422,12 +422,12 @@ cout<<"\n     ''''''''''''''''''''''''''''''''''\n"<<"          Data Loaded Succ
             switch (choice) {
                 case 1: {
                     cout<<"\n------------Adding Doctor------------\n";
-                    int id, age;
-                    string name, phone;
+                    int id, age, phone;
+                    string name;
                     id = getValidatedInput<int>("Enter ID: ");
                     name = getValidatedInput<string>("Enter name: ");
                     age = getValidatedInput<int>("Enter age: ");
-                    phone = getValidatedInput<string>("Enter phone: ");
+                    phone = getValidatedInput<int>("Enter phone: ");
                     addDoctor(id, name, age, phone);
                     saveData();
                     break;
@@ -507,13 +507,16 @@ cout<<"\n     ''''''''''''''''''''''''''''''''''\n"<<"          Data Loaded Succ
             switch (choice) {
                 case 1: {
                     cout<<"------------Adding a Patient------------\n";
-                    int id, age;
-                    string name, disease, phone, doctor;
+                    int id, age, phone;
+                    string name, disease, doctor;
                     id = getValidatedInput<int>("Enter Patient ID: ");
                     name = getValidatedInput<string>("Enter Patient Name: ");
                     age = getValidatedInput<int>("Enter Patient Age: ");
                     disease = getValidatedInput<string>("Enter Patient Disease: ");
                     phone = getValidatedInput<int>("Enter Patient Phone Number: ");
+                    loadData();
+                    cout<<"------------Displaying Doctors------------\n";
+                    displayDoctors();
                     doctor = getValidatedInput<string>("Enter Assigned Doctor's name: ");
                     int bed = assignBed();
                     if (bed == -1) {
@@ -682,8 +685,6 @@ int main() {
                 cout << "\nEnter the destination facility: ";
                 cin >> end;
                 hospitalgraph.findShortestPath(start, end);
-                break;
-
                 break;
             case 7:
                 cout << "\nExiting the Program! Goodbye!\n";
